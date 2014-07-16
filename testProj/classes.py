@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  main.py
+#  classes.py
 #  
 #  Copyright 2014 Yang <yang@Leo-FamilyGuy>
 #  
@@ -21,31 +21,25 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import d3py
-import pandas
-import numpy as np
-import matplotlib.pyplot as plt
 
-import classes as TSs
+class TimeSeries:
+	_datasize = 0
 
-def main():
-	obj1 = TSs.Bond()
-	obj2 = TSs.Stock()
-	
-	for i in range(10):
-		obj1.data_add(obj1._datasize, i + 1)
-		obj2.data_add(obj2._datasize, i - 10)
-	
-	print (obj1._datadict)
-	print (obj2._datadict)
-	
-	plt.bar(obj1._datadict.values(), obj2._datadict.values(), align='center')
-	plt.xticks(range(len(obj1._datadict)), obj1._datadict.keys())
+	def __init__(self):
+		self._datadict = dict()
 
-	plt.show()
-	
-	return 0
+	def data_add(self, tenor, val):
+		self._datadict[tenor] = val
+		self.increment()
 
-if __name__ == '__main__':
-	main()
+	def increment(self):
+		self._datasize += 1
 
+class Bond(TimeSeries):
+	def __init__(self):
+		TimeSeries.__init__(self)
+
+
+class Stock(TimeSeries):
+	def __init__(self):
+		TimeSeries.__init__(self)

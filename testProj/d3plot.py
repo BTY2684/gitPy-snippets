@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  main.py
+#  d3plot.py
 #  
 #  Copyright 2014 Yang <yang@Leo-FamilyGuy>
 #  
@@ -21,29 +21,24 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import d3py
-import pandas
-import numpy as np
-import matplotlib.pyplot as plt
 
-import classes as TSs
+import d3py
+import networkx as nx 
 
 def main():
-	obj1 = TSs.Bond()
-	obj2 = TSs.Stock()
-	
-	for i in range(10):
-		obj1.data_add(obj1._datasize, i + 1)
-		obj2.data_add(obj2._datasize, i - 10)
-	
-	print (obj1._datadict)
-	print (obj2._datadict)
-	
-	plt.bar(obj1._datadict.values(), obj2._datadict.values(), align='center')
-	plt.xticks(range(len(obj1._datadict)), obj1._datadict.keys())
-
-	plt.show()
-	
+   
+	G=nx.Graph()
+	G.add_edge(1,2)
+	G.add_edge(1,3)
+	G.add_edge(3,2)
+	G.add_edge(3,4)
+	G.add_edge(4,2)
+	 
+	with d3py.NetworkXFigure(G, name="graph",width=200, height=200) as p:
+		p += d3py.ForceLayout()
+		p.css['.node'] = {'fill': 'blue', 'stroke': 'magenta'}
+		#~ p.save_to_files()
+		p.show() 
 	return 0
 
 if __name__ == '__main__':
